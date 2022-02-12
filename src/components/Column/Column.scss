@@ -1,0 +1,32 @@
+@import '_settings.scss';
+.column {
+    margin: 0 15px;
+    flex: 0 0 auto;
+    width: 300px;
+    height: calc(100% - #{$gap});
+    > * {
+        background-color: $list-bg-color;
+        color: #333;
+        padding: 0 8px;
+    }
+
+    
+    header {
+        padding-left: 15px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 16px;
+        font-weight: bold;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    footer {
+        padding-left: 15px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+}

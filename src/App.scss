@@ -1,0 +1,46 @@
+@import '_settings.scss';
+// variable
+
+
+body {
+	margin: 0;
+	font-family: "Source San Pro", sans-serif;
+	font-size: 14px;
+	line-height: 1.3em;
+}
+.wrapper {
+	height: 100vh;
+	display: grid;
+	grid-template-rows: 40px 50px 1fr;
+	background-color: $board-bg-color;	
+}
+
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+	margin: 0;
+	overflow-y: auto;
+	max-height: calc(100% - 72px);
+	&::-webkit-scrollbar {
+		-webkit-appearance: none;
+	}
+	&::-webkit-scrollbar:vertical {
+		width: 11px;
+	}
+	&::-webkit-scrollbar-thumb {
+		width: 11px;
+		background-color: darken($list-bg-color, 15);
+		border-right: 5px solid $list-bg-color;
+	}
+	li {
+		background-color: #fff;
+		padding: $gap;
+		border-radius: 3px;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
+}
+
