@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { Container, Draggable } from 'react-smooth-dnd'
 import { isEmpty } from 'lodash'
 
 import './BoardContent.scss'
@@ -12,20 +13,38 @@ function BoardContent() {
     const [columns, setColumns] = useState([])
     useEffect(() => {
         const boardDB = initData.boards.find(board => board.id === 'board-1')
-        if(boardDB) {
-            setBoard(boardDB);
-            setColumns(mapOrder(boardDB.columns,boardDB.columnOrder, 'id' ))
+        if (boardDB) {
+            setBoard(boardDB)
+            setColumns(mapOrder(boardDB.columns, boardDB.columnOrder, 'id'))
         }
     }, [])
-    if(isEmpty(board)) {
+    if (isEmpty(board)) {
         return <div>Ko co du lieu</div>
+    }
+    const onColumnDrop = (dropResult) => {
+        console.log(dropResult)
     }
     return (
         <div className="board-content">
-            {columns.map((column, index) => {
-                    return <Column key={index} column={column} />
+            <Container
+                orientation="horizontal"
+                onDrop={onColumnDrop}
+                getChildPayload={index => columns[index]}
+                dragHandleSelector=".column-drag-handle"
+                dropPlaceholder={{
+                    animationDuration: 150,
+                    showOnTop: true,
+                    className: 'column-drop-preview'
+                }}
+            >
+                {
+                    columns.map((column, index) => (
+                        <Draggable key={index}>
+                            <Column column={column} />
+                        </Draggable>
+                    ))
                 }
-            )}
+            </Container>
         </div>
     )
 }
