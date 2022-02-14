@@ -19,4 +19,16 @@
         border: 1px dashed #abc;
         margin: 5px 45px 5px 5px;
     }
+	.add-new-column {
+		width: 300px;
+		background-color: #ffffffa3;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 5px;
+		padding: 0 10px;
+		margin: 0 15px;
+		&:hover {
+			background-color: #ffffffdb;			
+		}
+	}
 }

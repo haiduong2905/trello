@@ -3,12 +3,8 @@ import { Container, Draggable } from 'react-smooth-dnd'
 import './Column.scss'
 import Card from 'components/Card/Card'
 
-const onCardDrop = () => {
-
-}
-
 function Column(props) {
-    const { column } = props
+    const { column, onCardDrop } = props
     const cards = mapOrder(column.cards, column.cardOrder, 'id')
     return (
         <div className="column">
@@ -16,7 +12,7 @@ function Column(props) {
             <div className="card-list">
                 <Container
                     groupName="col"
-                    onDrop={onCardDrop}
+                    onDrop={dropResult => onCardDrop(column.id, dropResult)}
                     getChildPayload={index => cards[index]}
                     dragClass="card-ghost"
                     dropClass="card-ghost-drop"
@@ -36,7 +32,7 @@ function Column(props) {
                     }
                 </Container>
             </div>
-            <footer>Footer</footer>
+            <footer><i className='fa fa-plus' />Add another card</footer>
         </div>
     )
 }

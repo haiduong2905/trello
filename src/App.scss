@@ -6,13 +6,17 @@ body {
 	margin: 0;
 	font-family: "Source San Pro", sans-serif;
 	font-size: 14px;
-	line-height: 1.3em;
+	line-height: 1.3em;	
 }
 .wrapper {
 	height: 100vh;
 	display: grid;
 	grid-template-rows: 40px 50px 1fr;
-	background-color: $board-bg-color;	
+	background-color: $board-bg-color;
+	.fa {
+		font-size: 14px;
+		margin-right: 5px;
+	}	
 }
 
 
