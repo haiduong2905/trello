@@ -6,6 +6,7 @@ import './BoardContent.scss'
 import Column from 'components/Column/Column'
 import { initData } from 'actions/initData'
 import { mapOrder } from 'utilities/sorts'
+import { applyDrag } from 'utilities/dragDrop'
 
 
 function BoardContent() {
@@ -22,7 +23,22 @@ function BoardContent() {
         return <div>Ko co du lieu</div>
     }
     const onColumnDrop = (dropResult) => {
-        console.log(dropResult)
+        let newColumns = [...columns]
+        newColumns = applyDrag(newColumns, dropResult)
+        let newBoard = { ...board }
+        newBoard.columnOrder = newColumns.map(c => c.id)
+        newBoard.columns = newColumns
+        setColumns(newColumns)
+        setBoard(newBoard)
+    }
+    const onCardDrop = (columnId, dropResult) => {
+        if (dropResult.addedIndex !== null || dropResult.removedIndex !== null) {
+            let newColumns = [...columns]
+            let curColumn = newColumns.find(c => c.id === columnId)
+            curColumn.cards = applyDrag(curColumn.cards, dropResult)
+            curColumn.cardOrder = curColumn.cards.map(c => c.id)
+            setColumns(newColumns)
+        }
     }
     return (
         <div className="board-content">
@@ -40,10 +56,13 @@ function BoardContent() {
                 {
                     columns.map((column, index) => (
                         <Draggable key={index}>
-                            <Column column={column} />
+                            <Column column={column} onCardDrop={onCardDrop}/>
                         </Draggable>
                     ))
                 }
+                <div className="add-new-column">
+                    <i className='fa fa-plus' />Add another card
+                </div>
             </Container>
         </div>
     )
