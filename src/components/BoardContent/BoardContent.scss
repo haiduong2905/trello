@@ -22,13 +22,16 @@
 	.add-new-column {
 		width: 300px;
 		background-color: #ffffffa3;
-		height: 40px;
-		line-height: 40px;
+		line-height: 30px;
 		border-radius: 5px;
-		padding: 0 10px;
+		padding: 5px 10px;
 		margin: 0 15px;
 		&:hover {
 			background-color: #ffffffdb;			
+		}
+		.cancel {
+			float: right;
+			cursor: pointer;
 		}
 	}
 }
