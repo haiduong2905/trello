@@ -79,6 +79,20 @@ function BoardContent() {
         setValueInput('')
         toggleForm()
     }
+    const onUpdateColumn = (newColumn) => {
+        let newColumns = [...columns]
+        const findIndex = newColumns.findIndex(x => x.id === newColumn.id)
+        if (newColumn._destroy) {
+            newColumns.splice(findIndex, 1)
+        } else {
+            newColumns.splice(findIndex, 1, newColumn)
+        }
+        let newBoard = { ...board }
+        newBoard.columnOrder = newColumns.map(c => c.id)
+        newBoard.columns = newColumns
+        setColumns(newColumns)
+        setBoard(newBoard)
+    }
     return (
         <div className="board-content">
             <Container
@@ -95,7 +109,7 @@ function BoardContent() {
                 {
                     columns.map((column, index) => (
                         <Draggable key={index}>
-                            <Column column={column} onCardDrop={onCardDrop} />
+                            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
                         </Draggable>
                     ))
                 }
@@ -118,7 +132,7 @@ function BoardContent() {
                                 ref={refInput}
                                 value={valueInput}
                                 onChange={e => handleValueInput(e.target.value)}
-                                onKeyDown={e => {e.key === 'Enter' && addNewColumn()}}
+                                onKeyDown={e => { e.key === 'Enter' && addNewColumn() }}
                             />
                             <Button variant="success" size='sm' onClick={addNewColumn}>Add Column</Button>
                             <span className="cancel" onClick={toggleForm}><i className="fa fa-times"></i></span>

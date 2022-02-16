@@ -12,7 +12,7 @@
 
     
     header {
-        padding-left: 15px;
+        align-items: center;
         height: 36px;
         line-height: 36px;
         font-size: 16px;
@@ -20,6 +20,31 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         cursor: move;
+        display: flex;
+        .column-title{
+            flex: 90%;
+            margin-right: 5px;
+        }
+        input {
+            background-color: inherit;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: move;
+            &:focus {
+                border: 1px solid #86b7fe;
+            }
+        }
+        .column-dropdown {
+            flex: 10%;   
+            .dropdown-btn{
+                padding: 1px 8px;
+            }         
+            .dropdown-btn:after{
+                content: '...';
+                border: none;
+            }
+        }
     }
     footer {
         padding-left: 15px;
