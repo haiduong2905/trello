@@ -109,7 +109,11 @@ function BoardContent() {
                 {
                     columns.map((column, index) => (
                         <Draggable key={index}>
-                            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
+                            <Column
+                                column={column}
+                                onCardDrop={onCardDrop}
+                                onUpdateColumn={onUpdateColumn}
+                            />
                         </Draggable>
                     ))
                 }
