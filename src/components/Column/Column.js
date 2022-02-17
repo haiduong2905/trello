@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { mapOrder } from 'utilities/sorts'
 import { Container, Draggable } from 'react-smooth-dnd'
-import { Dropdown, Form } from 'react-bootstrap'
+import { Dropdown, Form, Button } from 'react-bootstrap'
 import htmlParse from 'html-react-parser'
+import { cloneDeep } from 'lodash'
 import './Column.scss'
 import Card from 'components/Card/Card'
 import ConfirmModal from 'components/Common/ConfirmModal'
@@ -31,7 +32,7 @@ function Column(props) {
     useEffect(() => {
         setColumnTitle(column.title)
     }, [column.title])
-    const handleTitleColumn = useCallback((e) => setColumnTitle(e.target.value), [])
+    const handleTitleColumn = (e) => setColumnTitle(e.target.value)
     const handleTitleColumnBlur = () => {
         const newColumn = {
             ...column,
@@ -44,6 +45,40 @@ function Column(props) {
             e.preventDefault()
             //e.target.blur()
         }
+    }
+    const [showForm, setShowForm] = useState(false)
+    const toggleForm = () => {
+        setShowForm(!showForm)
+    }
+    const refInput = useRef(null)
+    useEffect(() => {
+        if (refInput && refInput.current) {
+            refInput.current.focus()
+            refInput.current.select()
+        }
+    }, [showForm])
+    const [valueInput, setValueInput] = useState('')
+    const handleValueInput = (value) => {
+        setValueInput(value)
+    }
+    const addNewCard = () => {
+        if (!valueInput) {
+            refInput.current.focus()
+            return
+        }
+        const objNewCard = {
+            id: Math.random().toString(36).substr(2, 5),
+            boardId: column.boardId,
+            columnId: column.id,
+            title: valueInput.trim(),
+            cover: null
+        }
+        let newColum = cloneDeep(column)
+        newColum.cards.push(objNewCard)
+        newColum.cardOrder.push(objNewCard.id)
+        onUpdateColumn(newColum)
+        setValueInput('')
+        toggleForm()
     }
     return (
         <div className="column">
@@ -95,8 +130,30 @@ function Column(props) {
                         ))
                     }
                 </Container>
+                {
+                    showForm &&
+                    <div className="add-card">
+                        <Form.Control
+                            size='sm'
+                            as="textarea"
+                            rows="3"
+                            placeholder="Enter text"
+                            ref={refInput}
+                            value={valueInput}
+                            onChange={e => handleValueInput(e.target.value)}
+                            onKeyDown={e => { e.key === 'Enter' && addNewCard() }}
+                        />
+                        <div className="add-card-btn">
+                            <Button variant="success" size='sm' onClick={addNewCard}>Add Card</Button>
+                            <span className="cancel" onClick={toggleForm}><i className="fa fa-times"></i></span>
+                        </div>
+                    </div>
+                }
             </div>
-            <footer><i className='fa fa-plus' />Add another card</footer>
+            {
+                !showForm &&
+                <footer onClick={toggleForm}><i className='fa fa-plus' />Add another card</footer>
+            }
             <ConfirmModal
                 show={showConfirmModal}
                 onAction={onConfirmModalAction}
